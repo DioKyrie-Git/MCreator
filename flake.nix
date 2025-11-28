@@ -2,7 +2,7 @@
   description = "MCreator - Make Minecraft mods, Add-Ons, resource packs, and data packs";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.05";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
