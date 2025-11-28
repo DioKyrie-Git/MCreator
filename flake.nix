@@ -14,6 +14,8 @@
       {
         packages = {
           default = pkgs.callPackage ./default.nix { };
+
+          mcreator = pkgs.callPackage ./default.nix { };
         };
 
         apps.default = {
