@@ -68,12 +68,17 @@ stdenv.mkDerivation (finalAttrs: {
     ];
 
   unpackPhase = ''
+    runHook preUnpack
+
     mkdir -p ${finalAttrs.pname}
     tar -xvzf ${finalAttrs.src} -C ${finalAttrs.pname} --strip-components=1
+
+    runHook postUnpack
   '';
 
-  installPhase = 
-  ''
+  installPhase = ''
+    runHook preInstall
+
     mkdir -p $out/bin
     cp -r ${finalAttrs.pname} $out/bin
     makeWrapper ${jdk}/bin/java $out/bin/${finalAttrs.pname}/MCreator \
@@ -84,6 +89,8 @@ stdenv.mkDerivation (finalAttrs: {
       --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath finalAttrs.buildInputs}"
     mkdir -p $out/share/pixmaps
     cp ${finalAttrs.pname}/icon.png $out/share/pixmaps/MCreator.png
+
+    runHook postInstall
  '';
 
 
