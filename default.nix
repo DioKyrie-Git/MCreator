@@ -6,6 +6,7 @@
   , autoPatchelfHook
   , makeWrapper
   , makeDesktopItem
+  , copyDesktopItems
   , alsa-lib
   , libXext
   , libXi
@@ -25,7 +26,7 @@ stdenv.mkDerivation (finalAttrs: {
   pname = "MCreator";
   version = "2025.3.45720";
 
-  desktopItem = (
+  desktopItems = [(
     makeDesktopItem {
       desktopName = "MCreator";
       name = finalAttrs.pname;
@@ -33,7 +34,7 @@ stdenv.mkDerivation (finalAttrs: {
       icon = finalAttrs.pname;
       categories = [ "Development" "Game" ];
     }
-  );
+  )];
 
   # Although build from source is encouraged on NixOS, MCreator uses Gradle build, which renders it
   # impractical to build MCreator on NixOS with the current state of documentation around Gradle on NixOS.
@@ -47,6 +48,7 @@ stdenv.mkDerivation (finalAttrs: {
   nativeBuildInputs = [
     autoPatchelfHook
     makeWrapper
+    copyDesktopItems
     ];
 
   buildInputs = [
@@ -80,8 +82,6 @@ stdenv.mkDerivation (finalAttrs: {
       --add-flags "net.mcreator.Launcher" \
       --run "cd '$out/bin/MCreator'" \
       --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath finalAttrs.buildInputs}"
-    mkdir -p $out/share/applications
-    cp ${finalAttrs.desktopItem}/share/applications/*.desktop $out/share/applications
     mkdir -p $out/share/pixmaps
     cp ${finalAttrs.pname}/icon.png $out/share/pixmaps/MCreator.png
  '';
