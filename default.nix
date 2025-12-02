@@ -31,7 +31,7 @@ stdenv.mkDerivation (finalAttrs: {
       desktopName = "MCreator";
       name = finalAttrs.pname;
       exec = "${placeholder "out"}/bin/${finalAttrs.pname}/MCreator";
-      icon = finalAttrs.pname;
+      icon = "${placeholder "out"}/bin/${finalAttrs.pname}/icon.png";
       categories = [ "Development" "Game" ];
     }
   )];
@@ -87,8 +87,6 @@ stdenv.mkDerivation (finalAttrs: {
       --add-flags "net.mcreator.Launcher" \
       --run "cd '$out/bin/MCreator'" \
       --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath finalAttrs.buildInputs}"
-    mkdir -p $out/share/pixmaps
-    cp ${finalAttrs.pname}/icon.png $out/share/pixmaps/MCreator.png
 
     runHook postInstall
  '';
