@@ -30,7 +30,7 @@ stdenv.mkDerivation (finalAttrs: {
     makeDesktopItem {
       desktopName = "MCreator";
       name = finalAttrs.pname;
-      exec = "$out/bin/${finalAttrs.pname}/MCreator";
+      exec = "${placeholder "out"}/bin/${finalAttrs.pname}/MCreator";
       icon = finalAttrs.pname;
       categories = [ "Development" "Game" ];
     }
