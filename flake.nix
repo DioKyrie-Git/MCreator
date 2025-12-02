@@ -13,14 +13,12 @@
       in
       {
         packages = {
-          default = pkgs.callPackage ./default.nix { };
-
-          mcreator = pkgs.callPackage ./default.nix { };
+          default = pkgs.callPackage ./mcreator.nix { };
         };
 
-        apps.default = {
+        apps.mcreator = {
           type = "app";
-          program = "${self.packages.${system}.default}/bin/MCreator/MCreator";
+          program = "${self.packages.${system}.default}/bin/mcreator";
         };
       }
     );

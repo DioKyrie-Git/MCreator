@@ -23,15 +23,15 @@
 }:
 
 stdenv.mkDerivation (finalAttrs: {
-  pname = "MCreator";
+  pname = "mcreator";
   version = "2025.3.45720";
 
   desktopItems = [(
     makeDesktopItem {
       desktopName = "MCreator";
       name = finalAttrs.pname;
-      exec = "${placeholder "out"}/bin/${finalAttrs.pname}/MCreator";
-      icon = "${placeholder "out"}/bin/${finalAttrs.pname}/icon.png";
+      exec = finalAttrs.pname;
+      icon = finalAttrs.pname;
       categories = [ "Development" "Game" ];
     }
   )];
@@ -80,17 +80,16 @@ stdenv.mkDerivation (finalAttrs: {
     runHook preInstall
 
     mkdir -p $out/bin
-    cp -r ${finalAttrs.pname} $out/bin
-    makeWrapper ${jdk}/bin/java $out/bin/${finalAttrs.pname}/MCreator \
+    cp -r ${finalAttrs.pname}/* $out/bin
+    makeWrapper ${jdk}/bin/java $out/bin/mcreator \
       --add-flags "--add-opens=java.base/java.lang=ALL-UNNAMED" \
       --add-flags "-cp ./lib/mcreator.jar:./lib/*" \
       --add-flags "net.mcreator.Launcher" \
-      --run "cd '$out/bin/MCreator'" \
+      --run "cd '$out/bin'" \
       --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath finalAttrs.buildInputs}"
 
     runHook postInstall
  '';
-
 
   meta = with lib; {
     description = "MCreator is an open-source software used to make Minecraft mods, Add-Ons, ressource packs, and data packs.";
@@ -100,14 +99,14 @@ stdenv.mkDerivation (finalAttrs: {
     changelog = "https://mcreator.net/news/120031/mcreator-20253-new-features-and-new-minecraft-version";
     #license = licenses.gpl3Only licenses.gpl3Plus;
     maintainers = with maintainers; [ DioKyrie-Git ];
-    mainProgram = "MCreator";
+    mainProgram = "mcreator";
     platforms = platforms.linux;
     sourceProvenance = with sourceTypes; [ binaryNativeCode binatyBytecode];
   };
 })
 
-# To build derivation run this command in the same folder as default.nix
-# nix-build -E 'with import <nixpkgs> {}; callPackage ./default.nix {}'
+# To build derivation run this command in the same folder as mcreator.nix
+# nix-build -E 'with import <nixpkgs> {}; callPackage ./mcreator.nix {}'
 
 /*
     gpl3Only = {
